@@ -1,6 +1,5 @@
 import java.io.*;
 import java.net.*;
-import java.util.Scanner;
 
 public class CrazyClient {
     public static void main(String[] args) {
@@ -9,7 +8,7 @@ public class CrazyClient {
             Socket socket = new Socket("127.0.0.1", 7777);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            Scanner scanner = new Scanner(System.in);
+            BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
 
             System.out.println("=== BENVENUTO AL CRAZY TIME INDIPENDENTE ===");
             
@@ -17,8 +16,8 @@ public class CrazyClient {
             new Thread(new ServerListener(in)).start();
 
             // Ciclo principale di input dell'utente
-            while (scanner.hasNextLine()) {
-                String input = scanner.nextLine();
+            String input;
+            while ((input = keyboard.readLine()) != null) {
                 out.println(input);
                 if (input.equalsIgnoreCase("EXIT")) break;
             }
